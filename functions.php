@@ -121,7 +121,7 @@ function adventure_diary_scripts() {
 
 	wp_enqueue_style( 'adventure-diary-style', get_stylesheet_uri() );
 
-	wp_enqueue_script( 'adventure-diary-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '20151215', true );
+	wp_enqueue_script( 'foundation-js', get_template_directory_uri() . '/js/foundation.min.js', array('jquery'), '6.4.1', true );
 
 	wp_enqueue_script( 'adventure-diary-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '20151215', true );
 
