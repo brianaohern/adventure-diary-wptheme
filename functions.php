@@ -157,3 +157,19 @@ require get_template_directory() . '/inc/customizer.php';
  * Load Jetpack compatibility file.
  */
 require get_template_directory() . '/inc/jetpack.php';
+
+/**
+ * Register custom 'Planned' post status option for future posts.
+ */
+function aoat_register_planned_post_status(){
+	register_post_status( 'planned', array(
+		'label'                     => _x( 'Planned', 'post' ),
+		'public'                    => true,
+		'private'					=> true,
+		'exclude_from_search'       => false,
+		'show_in_admin_all_list'    => true,
+		'show_in_admin_status_list' => true,
+		'label_count'               => _n_noop( 'Planned <span class="count">(%s)</span>', 'Planned <span class="count">(%s)</span>' ),
+	) );
+}
+add_action( 'init', 'aoat_register_planned_post_status' );
