@@ -173,3 +173,27 @@ function aoat_register_planned_post_status(){
 	) );
 }
 add_action( 'init', 'aoat_register_planned_post_status' );
+
+/**
+ * Add Planned status option to editor menu.
+ */
+function jc_append_post_status_list(){
+     global $post;
+     $complete = '';
+     $label = '';
+     if($post->post_type == 'post'){
+          if($post->post_status == 'planned'){
+               $complete = ' selected="selected"';
+               $label = 'Planned';
+          }
+          echo '
+          <script>
+          jQuery(document).ready(function($){
+               $(\'select#post_status\').append(\'<option value="planned" '.$complete.'="">Planned</option>\');
+               $(\'#post-status-display\').append(\''.$label.'\');
+          });
+          </script>
+          ';
+     }
+}
+add_action('admin_footer-post.php', 'jc_append_post_status_list');
