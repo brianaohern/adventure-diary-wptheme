@@ -161,7 +161,7 @@ require get_template_directory() . '/inc/jetpack.php';
 /**
  * Register custom 'Planned' post status option for future posts.
  */
-function aoat_register_planned_post_status(){
+function adt_register_planned_post_status(){
 	register_post_status( 'planned', array(
 		'label'                     => _x( 'Planned', 'post' ),
 		'public'                    => true,
@@ -172,28 +172,29 @@ function aoat_register_planned_post_status(){
 		'label_count'               => _n_noop( 'Planned <span class="count">(%s)</span>', 'Planned <span class="count">(%s)</span>' ),
 	) );
 }
-add_action( 'init', 'aoat_register_planned_post_status' );
+add_action( 'init', 'adt_register_planned_post_status' );
 
-/**
- * Add Planned status option to editor menu.
- */
-function jc_append_post_status_list(){
-     global $post;
-     $complete = '';
-     $label = '';
-     if($post->post_type == 'post'){
-          if($post->post_status == 'planned'){
-               $complete = ' selected="selected"';
-               $label = 'Planned';
-          }
-          echo '
-          <script>
-          jQuery(document).ready(function($){
-               $(\'select#post_status\').append(\'<option value="planned" '.$complete.'="">Planned</option>\');
-               $(\'#post-status-display\').append(\''.$label.'\');
-          });
-          </script>
-          ';
-     }
+function adt_admin_post_status() {
+	global $post;
+
+	if ( $post->post_type === 'post' && 'draft' !== $post->post_status && 'pending' !== $post->post_status ) : ?>
+
+		<script>
+			jQuery( document ).ready( function( $ ) {
+				$( '#post_status' ).append( '<option value="planned"><?php esc_html_e( 'Planned' ) ?></option>' );
+			} );
+		</script>
+
+	<?php endif;
+
+	if ( 'planned' === $post->post_status ) : ?>
+
+		<script>
+			jQuery( document ).ready( function( $ ) {
+				$( '#post-status-display' ).append( '<?php esc_html_e( 'Planned' ) ?>' );
+			} );
+		</script>
+
+	<?php endif; 
 }
-add_action('admin_footer-post.php', 'jc_append_post_status_list');
+add_action( 'admin_footer-post.php', 'adt_admin_post_status' );
